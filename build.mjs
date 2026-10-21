@@ -38,6 +38,8 @@ const org = {
   image: SITE_URL + '/assets/img/og.jpg',
   address: { '@type': 'PostalAddress', addressLocality: 'Uberlândia', addressRegion: 'MG', addressCountry: 'BR' },
   areaServed: 'Triângulo Mineiro',
+  telephone: '+55 34 99899-0606',
+  sameAs: ['https://www.instagram.com/astudioimpacto/'],
   knowsAbout: ['Estratégia de marca', 'Identidade visual', 'Produção audiovisual', 'Tráfego pago', 'Sites sob medida', 'CRM e WhatsApp', 'Produção para shows e artistas'],
 };
 

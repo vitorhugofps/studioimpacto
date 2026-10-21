@@ -121,6 +121,7 @@ b, strong { font-weight: 600; }
 }
 .btn--dark { --btn: var(--preto); --btn-ink: var(--branco); --btn-hover: var(--grafite); --btn-hover-ink: var(--branco); }
 .btn--sm { min-height: 40px; padding: 0 18px; }
+.btn--ghost { --btn: transparent; --btn-ink: var(--ink); --btn-hover: var(--laranja); --btn-hover-ink: var(--preto); box-shadow: inset 0 0 0 1.5px currentColor; }
 
 /* ---------- cabeçalho ---------- */
 .site-header {
@@ -404,16 +405,30 @@ html.js .stair.is-live .stair__dot { opacity: 1; }
 .names { font-family: var(--font-display); text-transform: uppercase; font-size: var(--t-head); line-height: 1.04; color: var(--soft); }
 .names__head { display: inline; font-size: inherit; line-height: inherit; color: var(--ink); }
 .names__list, .names__list li { display: inline; }
-.names__list li:not(:last-child)::after { content: ", "; }
-.names__list li:last-child::after { content: "."; }
+/* a vírgula mora dentro do botão: nunca começa uma linha sozinha */
+.nm-sep { color: var(--soft); }
+.nm-sep::after { content: ","; }
+.names__list li:last-child .nm-sep::after { content: "."; }
 .nm-btn { padding: 0; border: 0; background: none; font: inherit; text-transform: inherit; color: var(--soft); line-height: inherit; text-align: left; transition: color var(--t-hover) ease; position: relative; }
 .nm-btn[aria-pressed="true"] { color: var(--ink); }
-.nm-btn[aria-pressed="true"]::after { content: ""; display: inline-block; width: .22em; height: .22em; margin-left: .08em; border-radius: 50%; background: var(--laranja); vertical-align: .06em; }
+.nm-btn[aria-pressed="true"] .nm-sep::before { content: ""; display: inline-block; width: .22em; height: .22em; margin-left: .08em; border-radius: 50%; background: var(--laranja); vertical-align: .06em; }
 @media (hover: hover) and (pointer: fine) { .nm-btn:hover { color: var(--ink); } }
 .names__detail { margin-top: clamp(40px, 4vw, 64px); display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--g); min-height: 4.5em; }
 .names__type { grid-column: 1 / span 3; font-weight: 600; color: var(--laranja); }
 .names__desc { grid-column: 4 / span 6; font-size: var(--t-lead); line-height: 1.4; max-width: 46ch; }
 .names__note { margin-top: 32px; color: var(--soft); font-size: 15px; }
+.nm-btn--star { color: var(--ink); }
+/* "Ver mais": sem JS a lista aparece inteira; com JS os 12 primeiros nomes ficam à mostra */
+.names__more { display: none; margin-top: clamp(28px, 3vw, 44px); }
+.js .names__more { display: block; }
+.names__count { color: var(--laranja); transition: color var(--t-hover) ease; }
+@media (hover: hover) and (pointer: fine) { .names__more .btn:hover .names__count { color: inherit; } }
+.js .names:not(.is-open) .names__list li[data-more] { display: none; }
+.js .names:not(.is-open) .names__list li.nm-cut .nm-sep::after { content: "..."; }
+@media (prefers-reduced-motion: no-preference) {
+  .names.is-open .names__list li[data-more] { animation: names-in 520ms var(--ease-out) both; animation-delay: calc(var(--i, 0) * 40ms); }
+}
+@keyframes names-in { from { opacity: 0; } to { opacity: 1; } }
 
 /* ---------- sobre: capitular ---------- */
 .sobre { position: relative; z-index: 2; padding-block: var(--pad); }
@@ -681,28 +696,30 @@ html.js .stair.is-live .stair__dot { opacity: 1; }
 .phero__lead { grid-column: 1 / span 5; font-size: var(--t-lead); line-height: 1.42; }
 .phero__cta { grid-column: 8 / -1; justify-self: end; display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
 
-.diagram { position: relative; margin-top: clamp(72px, 9vw, 150px); }
-.diagram__svg { width: 100%; height: auto; overflow: visible; }
+.diagram { position: relative; margin-top: clamp(72px, 9vw, 150px); container-type: inline-size; }
+/* mesma geometria do manual de marca: viewBox 1600 x 620 */
+.diagram__svg { display: block; width: 100%; height: auto; overflow: visible; }
 .dg-dot { fill: var(--laranja); }
-.dg-beam, .dg-rays path { fill: none; stroke: var(--laranja); stroke-linecap: round; }
-.dg-beam { stroke-width: 7; }
-.dg-rays path { stroke-width: 3; }
-.dg-glass > rect { fill: var(--fumaca); }
-.dg-flutes rect { fill: #3b3633; }
+.dg-beam { fill: none; stroke: url(#dg-beam); stroke-width: 12; }
+.dg-rays path { fill: none; stroke: var(--laranja); stroke-width: 6; stroke-linecap: round; }
+.dg-bar { fill: var(--laranja); }
 .dg-ends circle { fill: var(--laranja); }
-.dg-t { font-family: var(--font-display); font-size: 34px; fill: var(--branco); }
-.dg-t--soft { font-size: 22px; fill: var(--concreto); }
-.diagram__names { position: absolute; top: 0; bottom: 0; left: calc(886 / 1200 * 100%); right: 0; }
-.diagram__names li { position: absolute; left: 0; top: calc(var(--y) / 520 * 100%); transform: translateY(-50%); }
-.diagram__names a { font-family: var(--font-display); text-transform: uppercase; font-size: var(--t-title); line-height: 1; text-decoration: none; transition: color var(--t-hover) ease; }
+.dg-t { font-family: var(--font-display); font-size: 46px; fill: var(--branco); }
+.dg-t--soft { font-size: 30px; fill: var(--concreto); }
+.diagram__names { position: absolute; top: 0; bottom: 0; left: calc(1240 / 1600 * 100%); right: 0; }
+.diagram__names li { position: absolute; left: 0; top: calc(var(--y) / 620 * 100%); transform: translateY(-50%); }
+.diagram__names a { display: block; padding-block: .12em; font-family: var(--font-display); text-transform: uppercase; font-size: max(12px, calc(48 / 1600 * 100cqi)); line-height: 1; white-space: nowrap; text-decoration: none; transition: color var(--t-hover) ease; }
 @media (hover: hover) and (pointer: fine) { .diagram__names a:hover { color: var(--laranja); } }
 @media (prefers-reduced-motion: no-preference) {
+  /* o ponto cai, o feixe entra no vidro, cada canelura acende maior que a anterior e a luz sai em seis frentes */
   .js .diagram.is-armed:not(.is-in) .dg-beam, .js .diagram.is-armed:not(.is-in) .dg-rays path { stroke-dasharray: 1; stroke-dashoffset: 1; }
-  .js .diagram .dg-beam, .js .diagram .dg-rays path { stroke-dasharray: 1; transition: stroke-dashoffset 900ms var(--ease-in-out); }
-  .js .diagram.is-in .dg-beam { stroke-dashoffset: 0; }
-  .js .diagram.is-in .dg-rays path { stroke-dashoffset: 0; transition-delay: 600ms; }
+  .js .diagram .dg-beam, .js .diagram .dg-rays path { stroke-dasharray: 1; transition: stroke-dashoffset 800ms var(--ease-in-out); }
+  .js .diagram.is-in .dg-beam { stroke-dashoffset: 0; transition-delay: 150ms; }
+  .js .diagram.is-in .dg-rays path { stroke-dashoffset: 0; transition-duration: 900ms; transition-delay: 1350ms; }
+  .js .diagram .dg-bar { transform-box: fill-box; transform-origin: center; transition: transform 420ms var(--ease-out); transition-delay: calc(800ms + var(--i) * 50ms); }
+  .js .diagram.is-armed:not(.is-in) .dg-bar { transform: scaleY(0); }
   .js .diagram.is-armed:not(.is-in) .dg-ends circle, .js .diagram.is-armed:not(.is-in) .diagram__names li { opacity: 0; }
-  .js .diagram .dg-ends circle, .js .diagram .diagram__names li { transition: opacity 500ms ease 1300ms; }
+  .js .diagram .dg-ends circle, .js .diagram .diagram__names li { transition: opacity 500ms ease 2000ms; }
   .js .diagram.is-armed:not(.is-in) .dg-dot { transform: translateY(-60px); opacity: 0; }
   .js .diagram .dg-dot { transform-box: fill-box; transition: transform 700ms var(--ease-out), opacity 300ms ease; }
 }
@@ -1121,8 +1138,7 @@ html.js .kit.is-live .kit__item > p { max-width: 30ch; }
   .phero__lead { grid-column: 1 / -1; }
   .phero__cta { gap: 20px; }
   .diagram { margin-top: 56px; }
-  .diagram__names { position: static; display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 28px; }
-  .diagram__names li { position: static; transform: none; }
+  .dg-t { font-size: 64px; } .dg-t--soft { font-size: 44px; }
   .story__index { grid-column: 1 / -1; position: static; }
   .story__nav { position: static; display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 24px; }
   .story__items { grid-column: 1 / -1; margin-top: 64px; gap: 80px; }

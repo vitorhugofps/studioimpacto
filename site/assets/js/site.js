@@ -3,9 +3,9 @@
 (() => {
   'use strict';
 
-  /* Contato: preencha o número do WhatsApp (só dígitos, com DDI e DDD, ex.: 5534999999999).
-     Enquanto estiver vazio, os botões de WhatsApp levam para a página do diagnóstico. */
-  const CONTACT = { whatsapp: '', email: 'contato@studioimpacto.com.br' };
+  /* Contato: número do WhatsApp só com dígitos (DDI + DDD + número) e o Instagram da marca.
+     Sem número, os botões de WhatsApp levam ao diagnóstico e o diagnóstico abre o Instagram. */
+  const CONTACT = { whatsapp: '5534998990606', instagram: 'https://www.instagram.com/astudioimpacto/' };
 
   const html = document.documentElement;
   const mq = (q) => window.matchMedia(q).matches;
@@ -395,6 +395,19 @@
       if (type) type.textContent = b.dataset.type; if (desc) desc.textContent = b.dataset.desc;
     };
     btns.forEach((b) => { b.addEventListener('click', () => pick(b)); if (fine) b.addEventListener('pointerenter', () => pick(b)); b.addEventListener('focus', () => pick(b)); });
+    // "Ver mais": abre o resto da lista no mesmo parágrafo
+    const more = $('[data-names-more]');
+    if (!more) return;
+    const label = $('[data-more-label]', more), count = $('[data-more-count]', more);
+    more.addEventListener('click', () => {
+      const open = !root.classList.contains('is-open');
+      root.classList.toggle('is-open', open);
+      more.setAttribute('aria-expanded', String(open));
+      if (label) label.textContent = open ? 'Ver menos' : 'Ver mais';
+      if (count) count.hidden = open;
+      if (!open) { const on = btns.find((b) => b.getAttribute('aria-pressed') === 'true'); if (on && on.closest('[data-more]')) pick(btns[0]); }
+      requestAnimationFrame(() => { accentLeading(root); if (hasGsap()) ScrollTrigger.refresh(); });
+    });
   }
 
   /* ---------- uma ideia, todos os canais ---------- */
@@ -534,12 +547,12 @@
       ].join('\n');
       sent = true;
       const wa = waLink(msg);
-      const href = wa || `mailto:${CONTACT.email}?subject=${encodeURIComponent('Diagnóstico de Impacto: ' + get('empresa'))}&body=${encodeURIComponent(msg)}`;
+      const href = wa || CONTACT.instagram;
       if (done) {
-        const a = $('[data-done-link]', done); if (a) { a.href = href; a.textContent = wa ? 'Abrir o WhatsApp de novo' : 'Abrir o e-mail de novo'; }
+        const a = $('[data-done-link]', done); if (a) { a.href = href; a.textContent = wa ? 'Abrir o WhatsApp de novo' : 'Abrir o Instagram'; }
         form.hidden = true; done.hidden = false; const h = $('h2, h3', done); if (h) { h.setAttribute('tabindex', '-1'); h.focus(); }
       }
-      window.open(href, wa ? '_blank' : '_self');
+      window.open(href, '_blank');
     });
     show(0, false);
   }

@@ -34,13 +34,13 @@ Outras branches viram prévias com endereço próprio, protegidas pelo login da 
 
 Domínio próprio: adicione o domínio no projeto da Vercel e troque o endereço na linha `SITE_URL` do `build.mjs`, para a prévia de link no WhatsApp e nas redes apontar para ele.
 
-## Antes de divulgar
+## Contato e pendências
 
-- **WhatsApp:** preencha o número em `site/assets/js/site.js` (constante `CONTACT`, no começo do arquivo). Enquanto estiver vazio, os botões levam ao diagnóstico, e o diagnóstico envia por e-mail.
-- Confirme o e-mail `contato@studioimpacto.com.br` e o Instagram `@studioimpacto`.
+- **WhatsApp:** (34) 99899-0606, em `site/assets/js/site.js` (constante `CONTACT`, no começo do arquivo) e nos links `data-wa`.
+- **Instagram:** [@astudioimpacto](https://www.instagram.com/astudioimpacto/), o canal principal da marca no site (rodapé, menu e contato).
+- **Valores:** o site não mostra preços. Serviços aparecem como "Sob orçamento" e projetos como "Sob consulta".
+- **De onde viemos** (home): 12 nomes à mostra e o resto no botão "Ver mais". Clientes sem descrição aparecem só com a categoria; para completar, preencha `data-desc` em `src/pages/index.html`.
 - Fotos e vídeos reais de set, palco e equipe: hoje as imagens do site são composições desenhadas em código.
-- Confirme os valores "a partir de" (Serviços e Planos), o onboarding de 7 dias e o diagnóstico abatido no fechamento.
-- Clientes: Sony Music e Prefeitura de Monte Carmelo ficaram de fora até haver autorização.
 - Conteúdo de exemplo: o "Artista exemplo" do Palco e os números dos mockups (relatórios, painéis e conversas).
 - Para o Google indexar: apague a regra `X-Robots-Tag` do `vercel.json` e troque `site/robots.txt` por `User-agent: *` e `Allow: /`.
 
