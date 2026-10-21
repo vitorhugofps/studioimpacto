@@ -1,0 +1,32 @@
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+<header class="site-header" data-header>
+  <div class="site-header__bar wrap">
+    <a class="brand" href="/" aria-label="Studio Impacto, página inicial">{{>wordmark}}</a>
+    <nav class="nav" aria-label="Principal">
+      <ul>
+        <li><a href="/servicos"{{cur:servicos}}>Serviços</a></li>
+        <li><a href="/palco"{{cur:palco}}>Palco</a></li>
+        <li><a href="/estudio"{{cur:estudio}}>Estúdio</a></li>
+        <li><a href="/servicos#planos">Planos</a></li>
+      </ul>
+    </nav>
+    <a class="btn btn--sm header-cta" href="/diagnostico"{{cur:diagnostico}}><span>Agendar diagnóstico</span></a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu"><span class="menu-btn__open">Menu</span><span class="menu-btn__close">Fechar</span></button>
+  </div>
+</header>
+<div class="menu-sheet f-preto" id="menu" data-ink="dark" hidden>
+  <nav class="menu-sheet__nav wrap" aria-label="Menu">
+    <ul>
+      <li><a href="/">Início</a></li>
+      <li><a href="/servicos">Serviços</a></li>
+      <li><a href="/palco">Palco</a></li>
+      <li><a href="/estudio">Estúdio</a></li>
+      <li><a href="/servicos#planos">Planos</a></li>
+      <li><a href="/diagnostico">Diagnóstico</a></li>
+    </ul>
+  </nav>
+  <div class="menu-sheet__foot wrap">
+    <p>Uberlândia, MG. Resposta no WhatsApp em até 1 hora útil.</p>
+    <p><a href="/diagnostico" data-wa>Chamar no WhatsApp</a> <a href="mailto:contato@studioimpacto.com.br" data-mail>contato@studioimpacto.com.br</a></p>
+  </div>
+</div>

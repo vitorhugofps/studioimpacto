@@ -1,0 +1,15 @@
+{
+  "name": "studio-impacto-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node build.mjs && serve site -l 4173",
+    "build": "node build.mjs --prod",
+    "preview": "node build.mjs --prod && serve dist -l 4180"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2",
+    "html-minifier-terser": "7.2.0",
+    "serve": "14.2.6"
+  }
+}
